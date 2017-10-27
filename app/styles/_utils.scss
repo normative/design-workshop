@@ -1,0 +1,25 @@
+@mixin responsive-style($property, $fs-map, $half: false, $fs-breakpoints: $breakpoints) {
+  @each $fs-breakpoint, $fs-value in $fs-map {
+    @if $fs-breakpoint == null {
+      #{$property}: $fs-value;
+    }
+
+    @else {
+      // If $fs-font-size is a key that exists in
+      // $fs-breakpoints, use the value
+      @if map-has-key($fs-breakpoints, $fs-breakpoint) {
+        $fs-breakpoint: map-get($fs-breakpoints, $fs-breakpoint);
+      }
+
+      @include breakpoint($fs-breakpoint) {
+        @if $half == true {
+          #{$property}: $fs-value / 2;
+        }
+
+        @else {
+          #{$property}: $fs-value;
+        }
+      }
+    }
+  }
+}
